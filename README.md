@@ -244,6 +244,10 @@ DduiManager::messageBox("Confirm", "Delete this item?")
 
 Supported `DduiCustomForm` controls are labels, spacers, dividers, text fields, toggles, dropdowns, sliders and buttons. `DduiObservable` values can be updated server-side while the screen is open; client-writable observables are updated when the player changes the matching control.
 
+The DDUI transport targets Altay's Bedrock 1.26.30 API (`types\DataStore` and `BoolDataStoreValue` / `StringDataStoreValue` / `DoubleDataStoreValue`). Structured screen values are bundled under `valres\toolbox\form\ddui\cereal`, adapted from [PocketMine BedrockProtocol](https://github.com/pmmp/BedrockProtocol/tree/master/src/types/cereal) under LGPL-3.0-or-later; their license is included in that directory. Custom implementations of `DduiScreen` must use the bundled `DynamicValueMap` return type. The custom change operation preserves cereal's fixed-width headers, nested maps and null property cleanup, which Altay's native scalar-only `DataStoreChange` does not support.
+
+To check serialization against a server build without starting it, run `php tests/ddui-protocol.php /path/to/Altay.phar` with the server's PHP binary. Rendering and interactions still require verification with a connected Bedrock client.
+
 ## Packets
 
 PMToolBox includes a small packet API inspired by LibPacket/SimplePacketHandler: register handlers for specific packet classes instead of writing long `instanceof` chains.

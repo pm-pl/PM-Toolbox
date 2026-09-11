@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace valres\toolbox\form\ddui;
 
-use pocketmine\network\mcpe\protocol\types\cereal\DynamicValueMap;
+use valres\toolbox\form\ddui\cereal\DynamicValueMap;
 use pocketmine\player\Player;
 
 interface DduiScreen {

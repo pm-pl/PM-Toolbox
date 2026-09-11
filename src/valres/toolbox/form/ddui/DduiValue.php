@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace valres\toolbox\form\ddui;
 
-use pocketmine\network\mcpe\protocol\types\cereal\DynamicValue;
-use pocketmine\network\mcpe\protocol\types\cereal\DynamicValueBool;
-use pocketmine\network\mcpe\protocol\types\cereal\DynamicValueDouble;
-use pocketmine\network\mcpe\protocol\types\cereal\DynamicValueLong;
-use pocketmine\network\mcpe\protocol\types\cereal\DynamicValueMap;
-use pocketmine\network\mcpe\protocol\types\cereal\DynamicValueString;
+use valres\toolbox\form\ddui\cereal\DynamicValue;
+use valres\toolbox\form\ddui\cereal\DynamicValueBool;
+use valres\toolbox\form\ddui\cereal\DynamicValueDouble;
+use valres\toolbox\form\ddui\cereal\DynamicValueLong;
+use valres\toolbox\form\ddui\cereal\DynamicValueMap;
+use valres\toolbox\form\ddui\cereal\DynamicValueString;
 
 final class DduiValue {
     private function __construct() {}

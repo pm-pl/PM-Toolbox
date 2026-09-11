@@ -8,16 +8,20 @@ use pmmp\encoding\ByteBufferReader;
 use pmmp\encoding\ByteBufferWriter;
 use pmmp\encoding\LE;
 use pocketmine\network\mcpe\protocol\serializer\CommonTypes;
-use pocketmine\network\mcpe\protocol\types\cereal\DynamicValue;
-use pocketmine\network\mcpe\protocol\types\cereal\DynamicValueType;
-use pocketmine\network\mcpe\protocol\types\ddui\DataStoreOperation;
-use pocketmine\network\mcpe\protocol\types\ddui\DataStoreOperationType;
+use valres\toolbox\form\ddui\cereal\DynamicValue;
+use valres\toolbox\form\ddui\cereal\DynamicValueType;
+use pocketmine\network\mcpe\protocol\types\DataStore;
+use pocketmine\network\mcpe\protocol\types\DataStoreType;
 use pocketmine\network\mcpe\protocol\types\GetTypeIdFromConstTrait;
 
-final class DataStoreChangeOperation implements DataStoreOperation {
+/**
+ * Altay's native DataStoreChange only supports scalar values. DDUI screen data
+ * uses cereal values and fixed-width headers, including null to clear a property.
+ */
+final class DataStoreChangeOperation extends DataStore {
     use GetTypeIdFromConstTrait;
 
-    public const ID = DataStoreOperationType::CHANGE;
+    public const ID = DataStoreType::CHANGE;
 
     public function __construct(
         private string $name,

@@ -97,7 +97,7 @@ final class DduiManager {
         }
 
         $entry = self::$activeScreens[self::playerKey($player)][$instanceId] ?? null;
-        if ($entry === null) {
+        if ($entry === null || $entry["property"] !== $property) {
             return false;
         }
 

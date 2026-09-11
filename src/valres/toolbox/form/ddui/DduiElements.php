@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace valres\toolbox\form\ddui;
 
 use InvalidArgumentException;
-use pocketmine\network\mcpe\protocol\types\cereal\DynamicValueMap;
+use valres\toolbox\form\ddui\cereal\DynamicValueMap;
 
 final class DduiElements {
     private function __construct() {}

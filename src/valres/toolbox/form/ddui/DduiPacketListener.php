@@ -12,9 +12,9 @@ use pocketmine\network\mcpe\protocol\ClientboundDataDrivenUICloseScreenPacket;
 use pocketmine\network\mcpe\protocol\ClientboundDataStorePacket;
 use pocketmine\network\mcpe\protocol\ServerboundDataDrivenScreenClosedPacket;
 use pocketmine\network\mcpe\protocol\ServerboundDataStorePacket;
-use pocketmine\network\mcpe\protocol\types\ddui\update\BoolDataStoreUpdateValue;
-use pocketmine\network\mcpe\protocol\types\ddui\update\DoubleDataStoreUpdateValue;
-use pocketmine\network\mcpe\protocol\types\ddui\update\StringDataStoreUpdateValue;
+use pocketmine\network\mcpe\protocol\types\BoolDataStoreValue;
+use pocketmine\network\mcpe\protocol\types\DoubleDataStoreValue;
+use pocketmine\network\mcpe\protocol\types\StringDataStoreValue;
 use pocketmine\player\Player;
 use valres\toolbox\form\ddui\operation\DataStoreChangeOperation;
 
@@ -41,7 +41,9 @@ final class DduiPacketListener implements Listener {
         }
 
         if ($packet instanceof ServerboundDataDrivenScreenClosedPacket) {
-            DduiManager::close($player, $packet->getFormId(), $this->mapCloseReason($packet->getCloseReason()));
+            if (DduiManager::close($player, $packet->getFormId(), $this->mapCloseReason($packet->getCloseReason()))) {
+                $event->cancel();
+            }
             return;
         }
 
@@ -50,15 +52,19 @@ final class DduiPacketListener implements Listener {
         }
 
         $update = $packet->getUpdate();
+        if ($update->getName() !== "minecraft") {
+            return;
+        }
+
         $value = match (true) {
-            $update->getData() instanceof BoolDataStoreUpdateValue => $update->getData()->getValue(),
-            $update->getData() instanceof StringDataStoreUpdateValue => $update->getData()->getValue(),
-            $update->getData() instanceof DoubleDataStoreUpdateValue => $update->getData()->getValue(),
+            $update->getData() instanceof BoolDataStoreValue => $update->getData()->getValue(),
+            $update->getData() instanceof StringDataStoreValue => $update->getData()->getValue(),
+            $update->getData() instanceof DoubleDataStoreValue => $update->getData()->getValue(),
             default => null,
         };
 
-        if ($value !== null) {
-            DduiManager::update($player, $update->getProperty(), $update->getPath(), $value);
+        if ($value !== null && DduiManager::update($player, $update->getProperty(), $update->getPath(), $value)) {
+            $event->cancel();
         }
     }
 
